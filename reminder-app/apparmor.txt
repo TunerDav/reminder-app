@@ -1,8 +1,6 @@
 #include <tunables/global>
 
-# Explicitly link the profile to the executable path
-profile reminder_app /usr/bin/reminder_app flags=(attach_disconnected,mediate_deleted) {
-  # Standard base rules
+profile reminder_app flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
