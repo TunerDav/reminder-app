@@ -2,26 +2,32 @@ import { PrismaClient } from "./generated/prisma"
 import { PrismaPg } from "@prisma/adapter-pg"
 import { Pool } from "pg"
 
-const pool = new Pool({ 
-  host: '192.168.178.193',
-  port: 5432,
-  user: 'postgres',
-  password: 'homeassistant',
-  database: 'reminder_app',
-  ssl: false,
-})
+function createPrismaClient() {
+  const databaseUrl = process.env.DATABASE_URL || ''
+  
+  // Skip adapter during build when using dummy DATABASE_URL
+  if (databaseUrl.includes('dummy')) {
+    return new PrismaClient()
+  }
+  
+  // At runtime, use PG adapter with DATABASE_URL
+  const pool = new Pool({ 
+    connectionString: databaseUrl,
+  })
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err)
-})
+  pool.on('error', (err) => {
+    console.error('Unexpected error on idle client', err)
+  })
 
-const adapter = new PrismaPg(pool)
+  const adapter = new PrismaPg(pool)
+  return new PrismaClient({ adapter })
+}
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
+export const prisma = globalForPrisma.prisma ?? createPrismaClient()
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
 
