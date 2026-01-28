@@ -1,5 +1,5 @@
 name: Reminder App
-version: "1.2.2"
+version: "1.2.3"
 slug: reminder-app
 description: Family relationship manager with reminders, events and contacts
 url: https://github.com/TunerDav/reminder-app
@@ -10,6 +10,7 @@ arch:
   - armv7
   - i386
 init: false
+apparmor: false
 homeassistant_api: true
 host_network: false
 map:
