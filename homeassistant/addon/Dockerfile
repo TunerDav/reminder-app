@@ -53,5 +53,6 @@ RUN chmod a+x /run.sh
 # Expose port
 EXPOSE 3000
 
-# Run the addon
+# Clear base image entrypoint and run the addon
+ENTRYPOINT []
 CMD ["/run.sh"]
