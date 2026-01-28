@@ -141,7 +141,7 @@ export default async function HomePage() {
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
                 <CalendarClock className="h-5 w-5 text-primary" />
-                Nächste Events
+                Nächste Termine
               </h2>
               <Link
                 href="/events"

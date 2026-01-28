@@ -107,7 +107,7 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen pb-24">
       <PageHeader
-        title="Events"
+        title="Termine"
         action={
           <Link href="/events/templates">
             <Button variant="outline" size="sm" className="rounded-xl gap-2">
@@ -142,7 +142,7 @@ export default function EventsPage() {
               title={filter === "all" ? "Keine anstehenden Termine" : `Keine ${filter === "available" ? "offenen" : "eingeladenen"} Termine`}
               description={
                 filter === "all"
-                  ? "Erstelle wiederkehrende Termine, um automatisch Events zu generieren."
+                  ? "Erstelle wiederkehrende Termine, um automatisch Termine zu generieren."
                   : `Es gibt aktuell keine ${filter === "available" ? "offenen" : "eingeladenen"} Termine.`
               }
               action={
@@ -186,9 +186,9 @@ export default function EventsPage() {
       <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
         <DialogContent className="max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Personen einladen</DialogTitle>
+            <DialogTitle>Menschen einladen</DialogTitle>
             <DialogDescription>
-              Wähle Kontakte oder Familien für "{selectedSlot?.event_template_name}" am{" "}
+              Wähle Menschen oder Familien für "{selectedSlot?.event_template_name}" am{" "}
               {selectedSlot && new Date(selectedSlot.slot_date).toLocaleDateString("de-DE")}
             </DialogDescription>
           </DialogHeader>
@@ -301,7 +301,7 @@ export default function EventsPage() {
             {/* Contacts */}
             {contacts.length > 0 && (
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Kontakte</Label>
+                <Label className="text-sm font-medium">Einzelne Menschen</Label>
                 <div className="max-h-48 overflow-y-auto space-y-2 border rounded-xl p-3">
                   {contacts.map((contact) => (
                     <div key={contact.id} className="flex items-center space-x-2">

@@ -33,8 +33,8 @@ export default async function PeoplePage({
         ) : (
           <EmptyState
             icon={<Users className="h-6 w-6 text-muted-foreground" />}
-            title="Noch keine Personen"
-            description="Füge deine ersten Kontakte oder Familien hinzu"
+            title="Noch keine Menschen"
+            description="Füge deine ersten Menschen oder Familien hinzu"
             action={
               <div className="flex gap-2">
                 <Link
@@ -42,7 +42,7 @@ export default async function PeoplePage({
                   className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors"
                 >
                   <UserPlus className="h-4 w-4" />
-                  Kontakt
+                  Person
                 </Link>
                 <Link
                   href="/families/new"

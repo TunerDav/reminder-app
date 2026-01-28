@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils"
 const navItems = [
   { href: "/", icon: Home, label: "Start" },
   { href: "/contacts", icon: Users, label: "Menschen" },
-  { href: "/invite-groups", icon: UsersRound, label: "Gruppen" },
-  { href: "/events", icon: CalendarClock, label: "Events" },
-  { href: "/reminders", icon: Bell, label: "Erinnern" },
+  { href: "/invite-groups", icon: UsersRound, label: "Einladungen" },
+  { href: "/events", icon: CalendarClock, label: "Termine" },
+  { href: "/reminders", icon: Bell, label: "Erinnerungen" },
 ]
 
 export function BottomNav() {

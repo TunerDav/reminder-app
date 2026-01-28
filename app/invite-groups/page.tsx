@@ -125,7 +125,7 @@ export default function InviteGroupsPage() {
             {individualGroups.length > 0 && (
               <section>
                 <h2 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-                  Einzelpersonen
+                  Einzelne
                 </h2>
                 <div className="space-y-2">
                   {individualGroups.map(g => (

@@ -120,7 +120,7 @@ export function ReminderForm() {
       <div className="bg-card rounded-2xl border border-border p-4 space-y-4">
         <div className="flex items-center gap-2 text-primary">
           <Users className="h-4 w-4" />
-          <span className="text-sm font-medium">Personen / Familien</span>
+          <span className="text-sm font-medium">Menschen / Familien</span>
         </div>
         
         {/* Families */}
@@ -153,7 +153,7 @@ export function ReminderForm() {
         {/* Contacts */}
         {contacts.length > 0 && (
           <div className="space-y-2">
-            <Label className="text-muted-foreground text-xs">Einzelne Kontakte auswählen</Label>
+            <Label className="text-muted-foreground text-xs">Einzelne Menschen auswählen</Label>
             <div className="max-h-40 overflow-y-auto space-y-2 border rounded-xl p-2">
               {contacts.map((contact) => (
                 <div key={contact.id} className="flex items-center space-x-2">

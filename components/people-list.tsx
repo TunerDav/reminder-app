@@ -127,7 +127,7 @@ export function PeopleList({ data, initialFilter = "all" }: PeopleListProps) {
           />
         ))}
 
-        {/* Einzelpersonen */}
+        {/* Einzelne */}
         {filteredData.individuals.map((contact) => (
           <IndividualCard key={`individual-${contact.id}`} contact={contact} />
         ))}
@@ -135,7 +135,7 @@ export function PeopleList({ data, initialFilter = "all" }: PeopleListProps) {
         {/* Empty State */}
         {filteredData.families.length === 0 && filteredData.individuals.length === 0 && (
           <div className="text-center py-8 text-muted-foreground">
-            {searchQuery ? "Keine Ergebnisse gefunden" : "Keine Personen vorhanden"}
+            {searchQuery ? "Keine Ergebnisse gefunden" : "Keine Menschen vorhanden"}
           </div>
         )}
       </div>
