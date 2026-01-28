@@ -126,6 +126,7 @@ export type EventTemplateFlat = {
   recurrence_interval: number
   recurrence_day_of_week: number | null
   recurrence_day_of_month: number | null
+  recurrence_week_of_month: number | null
   time_of_day: string | null
   max_attendees: number
   active: boolean

@@ -29,6 +29,34 @@ const recurrenceLabels: Record<string, string> = {
 }
 
 const daysOfWeek = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
+const daysOfWeekFull = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]
+const weekOrdinals = ["", "Erster", "Zweiter", "Dritter", "Vierter", "Letzter"]
+
+function formatRecurrenceRule(template: any): string {
+  if (template.recurrence_type === "weekly") {
+    const dayName = template.recurrence_day_of_week !== null 
+      ? daysOfWeekFull[template.recurrence_day_of_week] 
+      : ""
+    const interval = template.recurrence_interval > 1 ? `alle ${template.recurrence_interval} Wochen` : "wöchentlich"
+    return `${interval}${dayName ? ` am ${dayName}` : ""}`
+  }
+  
+  if (template.recurrence_type === "monthly") {
+    const interval = template.recurrence_interval > 1 ? `alle ${template.recurrence_interval} Monate` : "monatlich"
+    
+    if (template.recurrence_week_of_month !== null && template.recurrence_day_of_week !== null) {
+      // Nth weekday pattern
+      const ordinal = weekOrdinals[template.recurrence_week_of_month] || ""
+      const dayName = daysOfWeekFull[template.recurrence_day_of_week] || ""
+      return `${interval} - ${ordinal} ${dayName}`
+    } else if (template.recurrence_day_of_month) {
+      // Fixed day pattern
+      return `${interval} - ${template.recurrence_day_of_month}.`
+    }
+  }
+  
+  return recurrenceLabels[template.recurrence_type] || template.recurrence_type
+}
 
 export default async function EventTemplatesPage() {
   const templates = await getEventTemplates()
@@ -98,12 +126,7 @@ export default async function EventTemplatesPage() {
                   <div className="flex items-center gap-1.5">
                     <RotateCcw className="h-3.5 w-3.5 text-muted-foreground" />
                     <span className="text-muted-foreground">
-                      {recurrenceLabels[template.recurrence_type] || template.recurrence_type}
-                      {template.recurrence_interval > 1 && ` (alle ${template.recurrence_interval})`}
-                      {template.recurrence_type === "weekly" && template.recurrence_day_of_week !== null &&
-                        ` - ${daysOfWeek[template.recurrence_day_of_week]}`}
-                      {template.recurrence_type === "monthly" && template.recurrence_day_of_month &&
-                        ` - ${template.recurrence_day_of_month}.`}
+                      {formatRecurrenceRule(template)}
                     </span>
                   </div>
                   {template.time_of_day && (

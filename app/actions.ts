@@ -12,6 +12,42 @@ import type { ReminderType, RepeatInterval } from "@/lib/generated/prisma"
 import { DEFAULT_EVENT_CATEGORIES, getCategoryLabel } from "@/lib/event-categories"
 
 // ============================================
+// Helpers: Date calculations
+// ============================================
+
+/**
+ * Get the nth occurrence of a weekday in a month
+ * @param year - The year
+ * @param month - The month (0-11)
+ * @param weekday - The day of week (0=Sunday, 6=Saturday)
+ * @param n - The occurrence (1=first, 2=second, 3=third, 4=fourth, 5=last)
+ * @returns The date of the nth weekday, or null if it doesn't exist
+ */
+function getNthWeekdayOfMonth(year: number, month: number, weekday: number, n: number): Date | null {
+  if (n === 5) {
+    // Special case: last occurrence of weekday in month
+    const lastDayOfMonth = new Date(year, month + 1, 0)
+    const lastWeekday = lastDayOfMonth.getDay()
+    const diff = (lastWeekday - weekday + 7) % 7
+    const date = new Date(year, month + 1, 0 - diff)
+    return date.getMonth() === month ? date : null
+  }
+  
+  // Find first occurrence of the weekday in the month
+  const firstDay = new Date(year, month, 1)
+  const firstWeekday = firstDay.getDay()
+  const daysUntilTarget = (weekday - firstWeekday + 7) % 7
+  const firstOccurrence = 1 + daysUntilTarget
+  
+  // Calculate the nth occurrence
+  const targetDate = firstOccurrence + (n - 1) * 7
+  const date = new Date(year, month, targetDate)
+  
+  // Verify the date is still in the same month
+  return date.getMonth() === month ? date : null
+}
+
+// ============================================
 // Helpers: Prisma → Flat serializable objects
 // ============================================
 
@@ -156,6 +192,7 @@ function flattenEventTemplate(t: any): EventTemplateFlat {
     recurrence_interval: t.recurrenceInterval,
     recurrence_day_of_week: t.recurrenceDayOfWeek,
     recurrence_day_of_month: t.recurrenceDayOfMonth,
+    recurrence_week_of_month: t.recurrenceWeekOfMonth,
     time_of_day: toTimeStr(t.timeOfDay),
     max_attendees: t.maxAttendees,
     active: t.active,
@@ -881,6 +918,7 @@ export async function createEventTemplate(data: {
   recurrence_interval?: number
   recurrence_day_of_week?: number | null
   recurrence_day_of_month?: number | null
+  recurrence_week_of_month?: number | null
   time_of_day?: string | null
   max_attendees?: number
 }) {
@@ -892,6 +930,7 @@ export async function createEventTemplate(data: {
       recurrenceInterval: data.recurrence_interval ?? 1,
       recurrenceDayOfWeek: data.recurrence_day_of_week ?? null,
       recurrenceDayOfMonth: data.recurrence_day_of_month ?? null,
+      recurrenceWeekOfMonth: data.recurrence_week_of_month ?? null,
       timeOfDay: data.time_of_day ? new Date(`1970-01-01T${data.time_of_day}`) : null,
       maxAttendees: data.max_attendees ?? 1,
     },
@@ -912,6 +951,7 @@ export async function updateEventTemplate(
     recurrence_interval?: number
     recurrence_day_of_week?: number | null
     recurrence_day_of_month?: number | null
+    recurrence_week_of_month?: number | null
     time_of_day?: string | null
     max_attendees?: number
     active?: boolean
@@ -926,6 +966,7 @@ export async function updateEventTemplate(
       recurrenceInterval: data.recurrence_interval ?? 1,
       recurrenceDayOfWeek: data.recurrence_day_of_week ?? null,
       recurrenceDayOfMonth: data.recurrence_day_of_month ?? null,
+      recurrenceWeekOfMonth: data.recurrence_week_of_month ?? null,
       timeOfDay: data.time_of_day ? new Date(`1970-01-01T${data.time_of_day}`) : null,
       maxAttendees: data.max_attendees ?? 1,
       active: data.active ?? true,
@@ -963,12 +1004,31 @@ export async function generateEventSlots(templateId: number, months: number = 3)
       currentDate.setDate(currentDate.getDate() + 7 * (template.recurrenceInterval || 1))
     }
   } else if (template.recurrenceType === "monthly") {
-    const targetDay = template.recurrenceDayOfMonth || 1
-    const currentDate = new Date(today.getFullYear(), today.getMonth(), targetDay)
-    if (currentDate < today) currentDate.setMonth(currentDate.getMonth() + 1)
-    while (currentDate <= endDate) {
-      slots.push({ date: new Date(currentDate), time: template.timeOfDay })
-      currentDate.setMonth(currentDate.getMonth() + (template.recurrenceInterval || 1))
+    // Check if using nth-weekday-of-month pattern
+    if (template.recurrenceWeekOfMonth !== null && template.recurrenceDayOfWeek !== null) {
+      // Nth weekday of month (e.g., "2nd Friday")
+      const currentDate = new Date(today.getFullYear(), today.getMonth(), 1)
+      while (currentDate <= endDate) {
+        const nthWeekdayDate = getNthWeekdayOfMonth(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          template.recurrenceDayOfWeek,
+          template.recurrenceWeekOfMonth
+        )
+        if (nthWeekdayDate && nthWeekdayDate >= today && nthWeekdayDate <= endDate) {
+          slots.push({ date: nthWeekdayDate, time: template.timeOfDay })
+        }
+        currentDate.setMonth(currentDate.getMonth() + (template.recurrenceInterval || 1))
+      }
+    } else {
+      // Fixed day of month
+      const targetDay = template.recurrenceDayOfMonth || 1
+      const currentDate = new Date(today.getFullYear(), today.getMonth(), targetDay)
+      if (currentDate < today) currentDate.setMonth(currentDate.getMonth() + 1)
+      while (currentDate <= endDate) {
+        slots.push({ date: new Date(currentDate), time: template.timeOfDay })
+        currentDate.setMonth(currentDate.getMonth() + (template.recurrenceInterval || 1))
+      }
     }
   }
 

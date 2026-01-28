@@ -41,6 +41,9 @@ export function EventTemplateForm({ template, categories, onSuccess }: EventTemp
   const [recurrenceType, setRecurrenceType] = useState<RecurrenceType>(template?.recurrence_type || "monthly")
   const [isCustomCategory, setIsCustomCategory] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(template?.category || "")
+  const [monthlyMode, setMonthlyMode] = useState<"day" | "weekday">(
+    template?.recurrence_week_of_month !== null && template?.recurrence_week_of_month !== undefined ? "weekday" : "day"
+  )
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -63,6 +66,9 @@ export function EventTemplateForm({ template, categories, onSuccess }: EventTemp
         : null,
       recurrence_day_of_month: formData.get("recurrence_day_of_month")
         ? parseInt(formData.get("recurrence_day_of_month") as string)
+        : null,
+      recurrence_week_of_month: formData.get("recurrence_week_of_month")
+        ? parseInt(formData.get("recurrence_week_of_month") as string)
         : null,
       time_of_day: (formData.get("time_of_day") as string) || null,
       max_attendees: parseInt(formData.get("max_attendees") as string) || 1,
@@ -233,21 +239,93 @@ export function EventTemplateForm({ template, categories, onSuccess }: EventTemp
           )}
 
           {recurrenceType === "monthly" && (
-            <div className="space-y-1.5">
-              <Label htmlFor="recurrence_day_of_month" className="text-muted-foreground text-xs">
-                Tag im Monat (1-31) *
-              </Label>
-              <Input
-                id="recurrence_day_of_month"
-                name="recurrence_day_of_month"
-                type="number"
-                min="1"
-                max="31"
-                defaultValue={template?.recurrence_day_of_month || 1}
-                placeholder="1"
-                className="rounded-xl"
-              />
-            </div>
+            <>
+              <div className="space-y-1.5">
+                <Label className="text-muted-foreground text-xs">Monatlicher Modus *</Label>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant={monthlyMode === "day" ? "default" : "outline"}
+                    onClick={() => setMonthlyMode("day")}
+                    className="flex-1 rounded-xl"
+                  >
+                    Festes Datum
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={monthlyMode === "weekday" ? "default" : "outline"}
+                    onClick={() => setMonthlyMode("weekday")}
+                    className="flex-1 rounded-xl"
+                  >
+                    Wochentag
+                  </Button>
+                </div>
+              </div>
+
+              {monthlyMode === "day" && (
+                <div className="space-y-1.5">
+                  <Label htmlFor="recurrence_day_of_month" className="text-muted-foreground text-xs">
+                    Tag im Monat (1-31) *
+                  </Label>
+                  <Input
+                    id="recurrence_day_of_month"
+                    name="recurrence_day_of_month"
+                    type="number"
+                    min="1"
+                    max="31"
+                    defaultValue={template?.recurrence_day_of_month || 1}
+                    placeholder="1"
+                    className="rounded-xl"
+                  />
+                </div>
+              )}
+
+              {monthlyMode === "weekday" && (
+                <>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="recurrence_week_of_month" className="text-muted-foreground text-xs">
+                      Woche im Monat *
+                    </Label>
+                    <Select
+                      name="recurrence_week_of_month"
+                      defaultValue={template?.recurrence_week_of_month?.toString() || "1"}
+                    >
+                      <SelectTrigger className="rounded-xl">
+                        <SelectValue placeholder="Woche auswählen" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">Erste</SelectItem>
+                        <SelectItem value="2">Zweite</SelectItem>
+                        <SelectItem value="3">Dritte</SelectItem>
+                        <SelectItem value="4">Vierte</SelectItem>
+                        <SelectItem value="5">Letzte</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="recurrence_day_of_week" className="text-muted-foreground text-xs">
+                      Wochentag *
+                    </Label>
+                    <Select
+                      name="recurrence_day_of_week"
+                      defaultValue={template?.recurrence_day_of_week?.toString() || "0"}
+                    >
+                      <SelectTrigger className="rounded-xl">
+                        <SelectValue placeholder="Wochentag auswählen" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {daysOfWeek.map((day) => (
+                          <SelectItem key={day.value} value={day.value.toString()}>
+                            {day.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
+              )}
+            </>
           )}
         </div>
       </div>
