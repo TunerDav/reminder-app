@@ -27,8 +27,11 @@ RUN git clone --depth 1 --branch ${GITHUB_BRANCH} ${GITHUB_REPO} . || \
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
+# Rebuild native dependencies and run post-install scripts
+RUN pnpm rebuild
+
 # Generate Prisma client
-RUN pnpm prisma generate
+RUN npx prisma generate
 
 # Build Next.js application
 RUN pnpm build
