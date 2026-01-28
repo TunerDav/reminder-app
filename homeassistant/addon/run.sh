@@ -42,9 +42,9 @@ echo "[INFO] Generating Prisma client..."
 cd /app
 pnpm prisma generate --schema=/app/prisma/schema.prisma
 
-# Run database migrations
-echo "[INFO] Running database migrations..."
-pnpm prisma migrate deploy || echo "[WARNING] Migration failed or no migrations to run"
+# Push schema to database (creates tables if they don't exist)
+echo "[INFO] Pushing schema to database..."
+pnpm prisma db push --skip-generate || echo "[WARNING] Schema push failed"
 
 # Start the application
 echo "[INFO] Starting Next.js application on port ${PORT}..."
