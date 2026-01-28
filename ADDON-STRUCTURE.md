@@ -26,26 +26,31 @@ reminder-app/                    # Root des Repositories
 ## 📋 Wichtige Dateien für Home Assistant
 
 ### 1. config.yaml (✅ VORHANDEN)
+
 - **Pflicht**: Ja, absolut notwendig!
 - **Zweck**: Definiert Add-on Metadaten, Konfigurationsoptionen, Ports
 - **Status**: ✅ Im Root-Verzeichnis
 
 ### 2. Dockerfile (✅ VORHANDEN)
+
 - **Pflicht**: Ja, für Add-on Build
 - **Zweck**: Definiert wie das Add-on gebaut wird
 - **Status**: ✅ Im Root-Verzeichnis, angepasst
 
 ### 3. run.sh (✅ VORHANDEN)
+
 - **Pflicht**: Ja, für Add-on Start
 - **Zweck**: Startscript mit Umgebungsvariablen
 - **Status**: ✅ Im Root-Verzeichnis
 
 ### 4. README.md (✅ VORHANDEN)
+
 - **Pflicht**: Empfohlen
 - **Zweck**: Add-on Dokumentation für Benutzer
 - **Status**: ✅ Im Root-Verzeichnis
 
 ### 5. icon.png (⚠️ FEHLT)
+
 - **Pflicht**: Nein, aber sehr empfohlen
 - **Größe**: 128x128 px
 - **Zweck**: Icon im Add-on Store
@@ -68,6 +73,7 @@ docker run -p 3000:3000 \
 ### 2. In Home Assistant testen
 
 1. **Repository pushen**:
+
    ```bash
    git add .
    git commit -m "Fix add-on structure for Home Assistant"
@@ -87,7 +93,9 @@ docker run -p 3000:3000 \
 ## ❌ Häufige Fehler (behoben)
 
 ### ~~Problem 1: Add-on Dateien im Unterordner~~
+
 **Vorher (falsch):**
+
 ```
 homeassistant/
   addon/
@@ -96,18 +104,21 @@ homeassistant/
 ```
 
 **Jetzt (korrekt):**
+
 ```
 config.yaml          # ✅ Im Root!
 Dockerfile           # ✅ Im Root!
 ```
 
 ### ~~Problem 2: Falscher Pfad im Dockerfile~~
+
 **Vorher:** `COPY homeassistant/addon/run.sh /run.sh`  
 **Jetzt:** `COPY run.sh /run.sh` ✅
 
 ## 🎯 Nächste Schritte
 
 1. **Code zu GitHub pushen**:
+
    ```bash
    git add .
    git commit -m "Add Home Assistant add-on (correct structure)"

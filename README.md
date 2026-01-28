@@ -20,6 +20,7 @@ Oder manuell:
 Family relationship manager with reminders, events and contacts for Home Assistant.
 
 **Features:**
+
 - Kontakt- und Familienverwaltung
 - Beziehungs-Tracking
 - Automatische Erinnerungen (Geburtstage, Jubiläen, Anrufe, Besuche)

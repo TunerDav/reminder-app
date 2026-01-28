@@ -1,17 +1,30 @@
 #include <tunables/global>
 
-profile reminder_app flags=(attach_disconnected,mediate_deleted) {
+# Explicitly link the profile to the executable path
+profile reminder_app /usr/bin/reminder_app flags=(attach_disconnected,mediate_deleted) {
+  # Standard base rules
   #include <abstractions/base>
+  #include <abstractions/nameservice>
 
+  # Permissions
   capability,
   file,
+  network inet stream,      # Often missing: allows TCP connections
+  network inet6 stream,     # Often missing: allows IPv6 connections
+  
+  # Signals
   signal (send) set=(kill,term,int,hup,cont),
 
+  # Filesystem Access
   /data/** rw,
   /run.sh rix,
   /app/** rw,
   /tmp/** rw,
+  /etc/ld.so.cache r,      # Often missing: required to load shared libraries
+  /usr/lib/** rm,          # Often missing: required to load libraries
 
+  # Deny rules (Highest priority)
   deny /sys/firmware/** r,
   deny /proc/sys/kernel/** w,
+  deny /etc/passwd w,       # Good practice security addition
 }

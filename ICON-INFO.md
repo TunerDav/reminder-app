@@ -18,6 +18,7 @@ Erstelle folgende Bilder im Root-Verzeichnis:
 ## Icon-Ideen
 
 Das Icon könnte darstellen:
+
 - 📅 Kalender mit Glocke
 - 👥 Familie mit Erinnerungssymbol
 - 🔔 Benachrichtigungs-Icon
