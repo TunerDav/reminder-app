@@ -28,6 +28,26 @@ lerna-debug.log*
 # OS
 .DS_Store
 *.pem
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!reminder-app/README.md
+ADDON*.md
+STRUCTURE*.md
+ICON-INFO.md
+INSTALLATION.md
+
+# Development
+.vscode
+.idea
+
+# Home Assistant addon folder (redundant with repository root)
+homeassistant/
 Thumbs.db
 
 # IDE
