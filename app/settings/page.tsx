@@ -6,6 +6,8 @@ import { DataManager } from "@/components/data-manager"
 import { MapPin, Heart, Info, Lightbulb, Tags, Database } from "lucide-react"
 import { getCongregations, getTags } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function SettingsPage() {
   const [congregations, tags] = await Promise.all([
     getCongregations(),

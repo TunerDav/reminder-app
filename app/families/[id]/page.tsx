@@ -4,6 +4,8 @@ import { FamilyDetail } from "@/components/family-detail"
 import { getFamilyById, getFamilyMembers, getFamilyTags, getFamilyInteractions, getFamilyReminders, getInviteGroupsByFamily } from "@/app/actions"
 import { getInviteGroupScore } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function FamilyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const familyId = parseInt(id)

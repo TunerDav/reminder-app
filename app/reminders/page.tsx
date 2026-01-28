@@ -6,6 +6,8 @@ import Link from "next/link"
 import { ReminderList } from "@/components/reminder-list"
 import { getOpenReminders } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function RemindersPage() {
   const reminders = await getOpenReminders()
 

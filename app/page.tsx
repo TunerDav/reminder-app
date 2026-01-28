@@ -8,6 +8,8 @@ import { EventSlotCard } from "@/components/event-slot-card"
 import { HomeFab } from "@/components/home-fab"
 import { RelationshipScoreBadge } from "@/components/relationship-score-badge"
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const [overdueReminders, upcomingReminders, stats, upcomingSlots, birthdays, neglectedContacts, inviteGroupScores] = await Promise.all([
     getOverdueReminders(),

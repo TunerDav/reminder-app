@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/page-header"
 import { CalendarView } from "@/components/calendar-view"
 import { getRemindersForMonth } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function CalendarPage() {
   const today = new Date()
   const reminders = await getRemindersForMonth(today.getFullYear(), today.getMonth())

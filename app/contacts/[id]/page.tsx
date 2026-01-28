@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/page-header"
 import { ContactDetail } from "@/components/contact-detail"
 import { getContactById, getContactTags, getContactReminders, getContactInteractions, getContactScore } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ContactPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const contactId = parseInt(id)

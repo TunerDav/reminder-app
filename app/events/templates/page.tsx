@@ -21,6 +21,7 @@ import {
 import { EmptyState } from "@/components/empty-state"
 import { BottomNav } from "@/components/bottom-nav"
 
+export const dynamic = 'force-dynamic'
 
 const recurrenceLabels: Record<string, string> = {
   "weekly": "Wöchentlich",

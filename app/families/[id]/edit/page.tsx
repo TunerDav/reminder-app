@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/page-header"
 import { FamilyForm } from "@/components/family-form"
 import { getFamilyById } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function EditFamilyPage({ params }: { params: { id: string } }) {
   const familyId = parseInt(params.id)
   const family = await getFamilyById(familyId)

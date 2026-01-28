@@ -6,6 +6,8 @@ import { EmptyState } from "@/components/empty-state"
 import { Users, Plus, UserPlus } from "lucide-react"
 import Link from "next/link"
 
+export const dynamic = 'force-dynamic'
+
 export default async function PeoplePage({
   searchParams,
 }: {

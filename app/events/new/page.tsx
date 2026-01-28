@@ -2,6 +2,8 @@ import { PageHeader } from "@/components/page-header"
 import { EventTemplateForm } from "@/components/event-template-form"
 import { getEventCategories } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function NewEventTemplatePage() {
   const categories = await getEventCategories()
 

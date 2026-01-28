@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/page-header"
 import { ContactForm } from "@/components/contact-form"
 import { getContactById } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function EditContactPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const contact = await getContactById(parseInt(id))

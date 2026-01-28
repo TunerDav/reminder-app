@@ -3,6 +3,8 @@ import { EventTemplateForm } from "@/components/event-template-form"
 import { getEventTemplate, getEventCategories } from "@/app/actions"
 import { notFound } from "next/navigation"
 
+export const dynamic = 'force-dynamic'
+
 type Params = Promise<{ id: string }>
 
 export default async function EditEventTemplatePage(props: { params: Params }) {

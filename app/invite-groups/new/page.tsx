@@ -3,6 +3,8 @@ import { BottomNav } from "@/components/bottom-nav"
 import { InviteGroupForm } from "@/components/invite-group-form"
 import { getContactsWithTags, getFamilies, getInviteGroupById } from "@/app/actions"
 
+export const dynamic = 'force-dynamic'
+
 export default async function NewInviteGroupPage({
   searchParams,
 }: {
