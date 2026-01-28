@@ -7,11 +7,10 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Install dependencies
 RUN apk add --no-cache \
     git \
+    nodejs \
+    npm \
     bash \
     postgresql-client
-
-# Install newer Node.js from edge repository (need 20.19+ for Prisma 7.3)
-RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main nodejs npm
 
 # Enable pnpm
 RUN npm install -g pnpm
@@ -31,9 +30,11 @@ RUN rm -f prisma.config.ts
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Generate Prisma client using the binary directly (skip pnpm wrapper to avoid ESM issues)
-RUN node_modules/.bin/prisma generate --schema=./prisma/schema.prisma || \
-    pnpm dlx prisma@latest generate --schema=./prisma/schema.prisma
+# Override Prisma version to one compatible with Node.js 20.15
+RUN pnpm add -D prisma@5.22.0 @prisma/client@5.22.0
+
+# Generate Prisma client using the binary directly
+RUN node_modules/.bin/prisma generate --schema=./prisma/schema.prisma
 
 # Build Next.js application
 RUN pnpm build
