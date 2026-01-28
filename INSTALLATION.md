@@ -48,9 +48,8 @@ GRANT ALL PRIVILEGES ON DATABASE reminderapp TO reminderapp;
 4. Wähle **Repositories**
 5. Füge die Repository-URL hinzu:
    ```
-   https://github.com/DEIN_USERNAME/reminder-app
+   https://github.com/TunerDav/reminder-app
    ```
-   > **Hinweis**: Ersetze `DEIN_USERNAME` mit deinem GitHub-Benutzernamen, wenn du das Repository dort hostest
 
 ## Schritt 3: Reminder App installieren
 
