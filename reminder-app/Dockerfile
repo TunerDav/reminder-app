@@ -17,23 +17,23 @@ RUN npm install -g pnpm
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
+# Copy package files from repository root
+COPY ../../package.json ../../pnpm-lock.yaml ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile --prod
 
-# Copy application files
-COPY . .
+# Copy application files from repository root
+COPY ../../ .
 
 # Copy Prisma schema and generate client
-COPY prisma ./prisma
+COPY ../../prisma ./prisma
 RUN pnpm prisma generate
 
 # Build Next.js application
 RUN pnpm build
 
-# Make run script executable
+# Make run script executable from addon directory
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 

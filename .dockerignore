@@ -52,7 +52,8 @@ INSTALLATION.md
 *.md
 
 # Home Assistant addon files (only needed at build time)
-homeassistant/build.sh
+homeassistant/
+reminder-app/
 
 # Scripts
 scripts/
