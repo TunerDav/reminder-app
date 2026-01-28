@@ -24,14 +24,17 @@ ARG GITHUB_BRANCH="main"
 RUN git clone --depth 1 --branch ${GITHUB_BRANCH} ${GITHUB_REPO} . || \
     git clone --depth 1 ${GITHUB_REPO} .
 
+# Remove problematic prisma.config.ts (causes ESM issues during build)
+RUN rm -f prisma.config.ts
+
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
 # Rebuild native dependencies and run post-install scripts
 RUN pnpm rebuild
 
-# Generate Prisma client
-RUN npx prisma generate
+# Generate Prisma client directly
+RUN pnpm exec prisma generate --schema=./prisma/schema.prisma
 
 # Build Next.js application
 RUN pnpm build
