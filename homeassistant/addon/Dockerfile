@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     nodejs \
     npm \
     bash \
+    jq \
     postgresql-client
 
 # Enable pnpm
@@ -45,10 +46,12 @@ RUN pnpm build
 # Remove dummy DATABASE_URL
 ENV DATABASE_URL=""
 
-# Copy run script to S6 services directory
-RUN mkdir -p /etc/services.d/reminder-app
-COPY run.sh /etc/services.d/reminder-app/run
-RUN chmod a+x /etc/services.d/reminder-app/run
+# Copy run script
+COPY run.sh /run.sh
+RUN chmod a+x /run.sh
 
 # Expose port
 EXPOSE 3000
+
+# Run the addon
+CMD ["/run.sh"]
