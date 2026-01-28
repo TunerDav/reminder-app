@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm add:*)",
+      "Bash(pnpm add @prisma/client)",
+      "Bash(pnpm approve-builds)",
+      "Bash(npx prisma init)",
+      "Bash(npx prisma:*)",
+      "Bash(ls \"c:\\\\Users\\\\DAVSCH6\\\\Desktop\\\\Projekte\\\\reminder-app-development\\\\lib\\\\generated\"\" 2>/dev/null; ls \"c:UsersDAVSCH6DesktopProjektereminder-app-developmentnode_modules.prisma\"\")",
+      "Bash(pnpm approve-builds:*)",
+      "Bash(dir:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx tsx:*)"
+    ]
+  }
+}

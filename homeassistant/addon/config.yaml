@@ -1,0 +1,36 @@
+name: Reminder App
+version: "1.0.0"
+slug: reminder-app
+description: Family relationship manager with reminders, events and contacts
+url: https://github.com/TunerDav/reminder-app
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+init: false
+homeassistant_api: true
+host_network: false
+map:
+  - share:rw
+options:
+  postgres_host: postgres
+  postgres_port: 5432
+  postgres_db: reminderapp
+  postgres_user: reminderapp
+  postgres_password: changeme
+  node_env: production
+  port: 3000
+schema:
+  postgres_host: str
+  postgres_port: port
+  postgres_db: str
+  postgres_user: str
+  postgres_password: password
+  node_env: list(development|production)
+  port: port
+ports:
+  3000/tcp: 3000
+ports_description:
+  3000/tcp: Web interface

@@ -1,0 +1,4 @@
+{
+  "name": "Reminder App",
+  "url": "https://github.com/yourusername/reminder-app"
+}

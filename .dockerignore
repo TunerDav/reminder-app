@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output
+
+# Next.js
+.next/
+out/
+build
+dist
+
+# Production
+.vercel
+.env*.local
+.env.production
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+*.pem
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Misc
+*.tsbuildinfo
+next-env.d.ts
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (not needed in container)
+README.md
+INSTALLATION.md
+*.md
+
+# Home Assistant addon files (only needed at build time)
+homeassistant/build.sh
+
+# Scripts
+scripts/
+
+# Development files
+.prettierrc
+.eslintrc.json
+.editorconfig
+
+# Keep these
+!homeassistant/addon/
