@@ -18,10 +18,12 @@ RUN npm install -g pnpm
 # Set working directory
 WORKDIR /app
 
-# Clone the repository
+# Clone the repository (use CACHEBUST to force fresh clone)
+ARG CACHEBUST=1
 ARG GITHUB_REPO="https://github.com/TunerDav/reminder-app.git"
 ARG GITHUB_BRANCH="main"
-RUN git clone --depth 1 --branch ${GITHUB_BRANCH} ${GITHUB_REPO} . || \
+RUN echo "Cache bust: ${CACHEBUST}" && \
+    git clone --depth 1 --branch ${GITHUB_BRANCH} ${GITHUB_REPO} . || \
     git clone --depth 1 ${GITHUB_REPO} .
 
 # Remove problematic prisma.config.ts (causes ESM issues during build)
