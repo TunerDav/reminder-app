@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile reminder_app flags=(attach_disconnected,mediate_deleted) {
+profile hassio-supervisor-addon-reminder-app flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
