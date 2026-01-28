@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 set -e
 
-# Read config from Home Assistant options.json
+# Read config from Home Assistant options.json using Node.js
 CONFIG_PATH="/data/options.json"
 
-if [ -f "$CONFIG_PATH" ]; then
-    POSTGRES_HOST=$(jq -r '.postgres_host' "$CONFIG_PATH")
-    POSTGRES_PORT=$(jq -r '.postgres_port' "$CONFIG_PATH")
-    POSTGRES_DB=$(jq -r '.postgres_db' "$CONFIG_PATH")
-    POSTGRES_USER=$(jq -r '.postgres_user' "$CONFIG_PATH")
-    POSTGRES_PASSWORD=$(jq -r '.postgres_password' "$CONFIG_PATH")
-    NODE_ENV=$(jq -r '.node_env' "$CONFIG_PATH")
-    PORT=$(jq -r '.port' "$CONFIG_PATH")
-else
+if [ ! -f "$CONFIG_PATH" ]; then
     echo "[ERROR] Config file not found at $CONFIG_PATH"
     exit 1
 fi
+
+# Parse all config values at once using Node.js
+eval $(node -e "
+const config = require('$CONFIG_PATH');
+console.log('POSTGRES_HOST=\"' + config.postgres_host + '\"');
+console.log('POSTGRES_PORT=\"' + config.postgres_port + '\"');
+console.log('POSTGRES_DB=\"' + config.postgres_db + '\"');
+console.log('POSTGRES_USER=\"' + config.postgres_user + '\"');
+console.log('POSTGRES_PASSWORD=\"' + config.postgres_password + '\"');
+console.log('NODE_ENV=\"' + config.node_env + '\"');
+console.log('PORT=\"' + config.port + '\"');
+")
 
 # Set environment variables
 export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public"

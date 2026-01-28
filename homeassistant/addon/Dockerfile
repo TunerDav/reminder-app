@@ -4,13 +4,12 @@ FROM $BUILD_FROM
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install dependencies
+# Install dependencies (no jq - using node for JSON parsing)
 RUN apk add --no-cache \
     git \
     nodejs \
     npm \
     bash \
-    jq \
     postgresql-client
 
 # Enable pnpm
