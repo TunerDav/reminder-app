@@ -1,0 +1,17 @@
+#include <tunables/global>
+
+profile reminder_app flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  capability,
+  file,
+  signal (send) set=(kill,term,int,hup,cont),
+
+  /data/** rw,
+  /run.sh rix,
+  /app/** rw,
+  /tmp/** rw,
+
+  deny /sys/firmware/** r,
+  deny /proc/sys/kernel/** w,
+}

@@ -11,7 +11,6 @@ arch:
   - i386
 init: false
 homeassistant_api: true
-apparmor: false
 host_network: false
 map:
   - share:rw
