@@ -30,11 +30,9 @@ RUN rm -f prisma.config.ts
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Rebuild native dependencies and run post-install scripts
-RUN pnpm rebuild
-
-# Generate Prisma client directly
-RUN pnpm exec prisma generate --schema=./prisma/schema.prisma
+# Generate Prisma client using the binary directly (skip pnpm wrapper to avoid ESM issues)
+RUN node_modules/.bin/prisma generate --schema=./prisma/schema.prisma || \
+    pnpm dlx prisma@latest generate --schema=./prisma/schema.prisma
 
 # Build Next.js application
 RUN pnpm build
