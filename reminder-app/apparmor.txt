@@ -1,4 +1,90 @@
-{
-  "name": "Reminder App",
-  "url": "https://github.com/yourusername/reminder-app"
+#include <tunables/global>
+
+profile reminder-app flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # Capabilities
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability dac_override,
+  capability dac_read_search,
+
+  # S6-Overlay
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
+  /etc/services.d/** rwix,
+  /etc/cont-init.d/** rwix,
+  /etc/cont-finish.d/** rwix,
+  /run/{,**} rwk,
+  /dev/tty rw,
+
+  # Bashio
+  /usr/lib/bashio/** ix,
+  /tmp/** rwk,
+
+  # Access to options.json and other service settings
+  /data/** rw,
+
+  # Start script
+  /run.sh ix,
+
+  # Node.js and npm
+  /usr/bin/node ix,
+  /usr/bin/npm ix,
+  /usr/bin/pnpm ix,
+  /usr/lib/node_modules/** ix,
+
+  # Application files
+  /app/** rw,
+  /app/.next/** rw,
+  /app/node_modules/** ix,
+
+  # SSL certificates
+  /etc/ssl/openssl.cnf r,
+  /etc/ssl/certs/** r,
+
+  # DNS
+  /etc/resolv.conf r,
+  /etc/hosts r,
+  /etc/nsswitch.conf r,
+
+  # PostgreSQL client
+  /usr/bin/pg_isready ix,
+  /usr/bin/psql ix,
+  /usr/lib/postgresql/** ix,
+
+  # Networking
+  network inet stream,
+  network inet6 stream,
+  network inet dgram,
+  network inet6 dgram,
+  network netlink raw,
+
+  # System information
+  /proc/sys/kernel/hostname r,
+  /proc/sys/kernel/osrelease r,
+  /proc/*/net/dev r,
+  /proc/*/stat r,
+  /proc/*/status r,
+  /proc/*/cmdline r,
+  /proc/cpuinfo r,
+  /proc/meminfo r,
+  /sys/devices/**/net/** r,
+
+  # Allow execution of shells and utilities
+  /bin/bash ix,
+  /bin/sh ix,
+  /usr/bin/env ix,
+  /usr/bin/basename ix,
+  /usr/bin/dirname ix,
+  /usr/bin/cut ix,
+  /usr/bin/grep ix,
+  /usr/bin/awk ix,
+  /usr/bin/sed ix,
+  /usr/bin/jq rix,
 }
