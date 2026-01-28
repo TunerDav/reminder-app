@@ -45,12 +45,10 @@ RUN pnpm build
 # Remove dummy DATABASE_URL
 ENV DATABASE_URL=""
 
-# Copy run script from addon directory (now local to build context)
-COPY run.sh /run.sh
-RUN chmod a+x /run.sh
+# Copy run script to S6 services directory
+RUN mkdir -p /etc/services.d/reminder-app
+COPY run.sh /etc/services.d/reminder-app/run
+RUN chmod a+x /etc/services.d/reminder-app/run
 
 # Expose port
 EXPOSE 3000
-
-# Run the addon
-CMD ["/run.sh"]
