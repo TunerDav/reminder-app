@@ -25,6 +25,10 @@ done
 
 bashio::log.info "PostgreSQL is ready!"
 
+# Generate Prisma client with runtime database URL
+bashio::log.info "Generating Prisma client..."
+pnpm prisma generate --schema=/app/prisma/schema.prisma
+
 # Run database migrations
 bashio::log.info "Running database migrations..."
 cd /app
