@@ -2,6 +2,8 @@ import { BottomNav } from "@/components/bottom-nav"
 import { PageHeader } from "@/components/page-header"
 import { ContactForm } from "@/components/contact-form"
 
+export const dynamic = 'force-dynamic'
+
 interface PageProps {
   searchParams: Promise<{ family_id?: string }>
 }

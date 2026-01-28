@@ -2,6 +2,8 @@ import { BottomNav } from "@/components/bottom-nav"
 import { PageHeader } from "@/components/page-header"
 import { ReminderForm } from "@/components/reminder-form"
 
+export const dynamic = 'force-dynamic'
+
 export default async function NewReminderPage() {
   return (
     <div className="min-h-screen pb-20 bg-background">
