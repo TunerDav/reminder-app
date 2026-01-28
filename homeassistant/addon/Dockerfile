@@ -33,8 +33,15 @@ RUN pnpm install --frozen-lockfile
 # Override Prisma version to one compatible with Node.js 20.15
 RUN pnpm add -D prisma@5.22.0 @prisma/client@5.22.0
 
-# Build Next.js application (Prisma generate will be done at runtime in run.sh)
+# Generate Prisma client with dummy DATABASE_URL for build
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy?schema=public"
+RUN node_modules/.bin/prisma generate --schema=./prisma/schema.prisma
+
+# Build Next.js application
 RUN pnpm build
+
+# Remove dummy DATABASE_URL
+ENV DATABASE_URL=""
 
 # Copy run script from addon directory (now local to build context)
 COPY run.sh /run.sh
