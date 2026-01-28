@@ -4,8 +4,9 @@ FROM $BUILD_FROM
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install Node.js and dependencies
+# Install dependencies
 RUN apk add --no-cache \
+    git \
     nodejs \
     npm \
     bash \
@@ -17,24 +18,23 @@ RUN npm install -g pnpm
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
+# Clone the repository
+ARG GITHUB_REPO="https://github.com/TunerDav/reminder-app.git"
+ARG GITHUB_BRANCH="main"
+RUN git clone --depth 1 --branch ${GITHUB_BRANCH} ${GITHUB_REPO} . || \
+    git clone --depth 1 ${GITHUB_REPO} .
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile
 
-# Copy application files
-COPY . .
-
-# Copy Prisma schema and generate client
-COPY prisma ./prisma
+# Generate Prisma client
 RUN pnpm prisma generate
 
 # Build Next.js application
 RUN pnpm build
 
-# Make run script executable
-COPY homeassistant/addon/run.sh /run.sh
+# Copy run script from addon directory (now local to build context)
+COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
 # Expose port
