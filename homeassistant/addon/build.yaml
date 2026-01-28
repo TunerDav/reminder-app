@@ -7,7 +7,7 @@ build_from:
 args:
   GITHUB_REPO: "https://github.com/TunerDav/reminder-app.git"
   GITHUB_BRANCH: "main"
-  CACHEBUST: "v1.1.4"
+  CACHEBUST: "v1.1.5"
 labels:
   org.opencontainers.image.title: "Reminder App"
   org.opencontainers.image.description: "Family relationship manager with reminders, events and contacts"
