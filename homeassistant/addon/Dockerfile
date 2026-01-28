@@ -7,10 +7,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Install dependencies
 RUN apk add --no-cache \
     git \
-    nodejs \
-    npm \
     bash \
     postgresql-client
+
+# Install newer Node.js from edge repository (need 20.19+ for Prisma 7.3)
+RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main nodejs npm
 
 # Enable pnpm
 RUN npm install -g pnpm
